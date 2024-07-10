@@ -7,6 +7,15 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 const path = require('path')
+// vite.config.js
+export default {
+  server: {
+    cors: {
+      origin: '*', // replace with your Netlify domain
+      credentials: true
+    }
+  }
+};
 
 function mutateCookieAttributes (proxy) {
   proxy.on('proxyRes', function (proxyRes, req, res) {
