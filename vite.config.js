@@ -129,12 +129,18 @@ export default defineConfig(({ mode }) => {
       cors: {
         origin: '*', 
         credentials: true,
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        methods: ['GET', 'POST', 'OPTIONS'], // Include OPTIONS for preflight requests
         allowedHeaders: ['Content-Type', 'Authorization'],
         exposedHeaders: ['Content-Length'],
         maxAge: 3600,
         optionsPassthrough: true,
-        preflightContinue: true
+        preflightContinue: true,
+        // Set custom CORS headers in the response
+        responseHeaders: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', // Include OPTIONS for preflight requests
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+        }
       },
       proxy
     },
