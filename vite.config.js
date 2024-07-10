@@ -5,7 +5,6 @@ import vue from '@vitejs/plugin-vue'
 import svgLoader from 'vite-svg-loader'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { visualizer } from 'rollup-plugin-visualizer'
-const cors = require('cors');
 
 const path = require('path');
 
@@ -74,24 +73,24 @@ export default defineConfig(({ mode }) => {
     portalApiUrl = 'http://localhost' + portalApiUrl.replace(subdomainR, '')
   }
 
-const proxy = {
-  '^/api': {
-    target: portalApiUrl,
-    changeOrigin: true,
-    headers: {
-      'Access-Control-Allow-Origin': '*', // Adjust based on your security requirements
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-    },
-    onProxyRes: (proxyRes) => {
-      if (proxyRes.headers['set-cookie']) {
-        proxyRes.headers['set-cookie'] = proxyRes.headers['set-cookie'].map(cookie => {
-          return cookie.replace(/Domain=.*;/, 'Domain=localhost; Secure;')
-        });
-      }
-    }
-  }
-};
+// const proxy = {
+//   '^/api': {
+//     target: portalApiUrl,
+//     changeOrigin: true,
+//     headers: {
+//       'Access-Control-Allow-Origin': '*', // Adjust based on your security requirements
+//       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+//       'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+//     },
+//     onProxyRes: (proxyRes) => {
+//       if (proxyRes.headers['set-cookie']) {
+//         proxyRes.headers['set-cookie'] = proxyRes.headers['set-cookie'].map(cookie => {
+//           return cookie.replace(/Domain=.*;/, 'Domain=localhost; Secure;')
+//         });
+//       }
+//     }
+//   }
+// };
 
 
   // required to prevent localhost from being rendered as 127.0.0.1
@@ -135,25 +134,25 @@ const proxy = {
     preview: {
       proxy
     },
-    server: {
-      cors: {
-        origin: '*', 
-        credentials: true,
-        methods: ['GET', 'POST', 'OPTIONS'], // Include OPTIONS for preflight requests
-        allowedHeaders: ['Content-Type', 'Authorization'],
-        exposedHeaders: ['Content-Length'],
-        maxAge: 3600,
-        optionsPassthrough: true,
-        preflightContinue: true,
-        // Set custom CORS headers in the response
-        responseHeaders: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', // Include OPTIONS for preflight requests
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-        }
-      },
-      proxy
-    },
+    // server: {
+    //   cors: {
+    //     origin: '*', 
+    //     credentials: true,
+    //     methods: ['GET', 'POST', 'OPTIONS'], // Include OPTIONS for preflight requests
+    //     allowedHeaders: ['Content-Type', 'Authorization'],
+    //     exposedHeaders: ['Content-Length'],
+    //     maxAge: 3600,
+    //     optionsPassthrough: true,
+    //     preflightContinue: true,
+    //     // Set custom CORS headers in the response
+    //     responseHeaders: {
+    //       'Access-Control-Allow-Origin': '*',
+    //       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', // Include OPTIONS for preflight requests
+    //       'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    //     }
+    //   },
+    //   proxy
+    // },
     customLogger: createCustomLogger()
   }
 })
