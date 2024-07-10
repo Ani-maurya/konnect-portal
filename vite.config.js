@@ -127,8 +127,14 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       cors: {
-        origin: 'https://customdevportal.netlify.app/', // replace with your Netlify domain
-        credentials: true
+        origin: '*', 
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        exposedHeaders: ['Content-Length'],
+        maxAge: 3600,
+        optionsPassthrough: true,
+        preflightContinue: true
       },
       proxy
     },
