@@ -7,34 +7,6 @@
 
     <link rel="icon" href="%VITE_INDEX_API_URL%api/v2/portal/favicon.ico">
     <title>Developer Portal</title>
-    <script>
-       document.addEventListener('DOMContentLoaded', function() {
-      // Fetch the stylesheet via the CORS proxy
-      fetch('https://cors-anywhere.herokuapp.com/https://747b8c71e577.us.portal.konghq.com/api/v2/portal/stylesheet.css')
-        .then(response => response.text())
-        .then(css => {
-          const style = document.createElement('style');
-          style.textContent = css;
-          document.head.append(style);
-        })
-        .catch(error => console.error('Error:', error));
-
-      // Fetch other resources similarly
-      fetch('https://cors-anywhere.herokuapp.com/https://747b8c71e577.us.portal.konghq.com/api/v2/portal/stylesheet/font.css')
-        .then(response => response.text())
-        .then(css => {
-          const style = document.createElement('style');
-          style.textContent = css;
-          document.head.append(style);
-        })
-        .catch(error => console.error('Error:', error));
-    });
-    </script>
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link rel="stylesheet" href="%VITE_INDEX_API_URL%api/v2/portal/stylesheet/font.css" type="text/css">
-    <link rel="stylesheet" href="%VITE_INDEX_API_URL%api/v2/portal/stylesheet.css" type="text/css">
-
-    <style>
       #initial-fullscreen-loading-container {
         position: fixed;
         top: 0;
