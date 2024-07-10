@@ -6,18 +6,9 @@ import svgLoader from 'vite-svg-loader'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { visualizer } from 'rollup-plugin-visualizer'
 
-const path = require('path')
-// vite.config.js
-export default {
-  server: {
-    cors: {
-      origin: '*', // replace with your Netlify domain
-      credentials: true
-    }
-  }
-};
+const path = require('path');
 
-function mutateCookieAttributes (proxy) {
+function mutateCookieAttributes(proxy) {
   proxy.on('proxyRes', function (proxyRes, req, res) {
     if (proxyRes.headers['set-cookie']) {
       proxyRes.headers['set-cookie'] = (proxyRes.headers['set-cookie']).map(h => {
@@ -27,7 +18,7 @@ function mutateCookieAttributes (proxy) {
   })
 }
 
-function setHostHeader (proxy) {
+function setHostHeader(proxy) {
   const host = new URL(process.env.VITE_PORTAL_API_URL).hostname
 
   proxy.on('proxyReq', function (proxyRes) {
@@ -38,7 +29,7 @@ function setHostHeader (proxy) {
 /**
  * Create a custom logger to ignore `vite:css` errors (from postcss) for imported packages
  */
-function createCustomLogger () {
+function createCustomLogger() {
   const logger = createLogger()
   const loggerWarn = logger.warn
   // Create array of partial message strings to ignore
@@ -55,7 +46,7 @@ function createCustomLogger () {
   return logger
 }
 
-export default ({ mode }) => {
+export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
 
   // Include the rollup-plugin-visualizer if the BUILD_VISUALIZER env var is set to "true"
@@ -96,7 +87,7 @@ export default ({ mode }) => {
   // required to prevent localhost from being rendered as 127.0.0.1
   dns.setDefaultResultOrder('verbatim')
 
-  return defineConfig({
+  return {
     logLevel: 'info',
     build: {
       rollupOptions: {
@@ -114,15 +105,13 @@ export default ({ mode }) => {
       }
     },
     plugins: [
-      vue(
-        {
-          template: {
-            transformAssetUrls: {
-              includeAbsolute: false
-            }
+      vue({
+        template: {
+          transformAssetUrls: {
+            includeAbsolute: false
           }
         }
-      ),
+      }),
       vueJsx(),
       svgLoader()
     ],
@@ -131,19 +120,18 @@ export default ({ mode }) => {
         '@': path.resolve(__dirname, './src')
       },
       preserveSymlinks: true,
-      /**
-       * List of file extensions to try for imports that omit extensions. Note it is NOT recommended to omit extensions for custom import types (e.g. .vue) since it can interfere with IDE and type support.
-       * TODO: This is a crutch as we need to add `.vue` to all component imports.
-       * https://vitejs.dev/config/#resolve-extensions
-       */
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
     },
     preview: {
       proxy
     },
     server: {
+      cors: {
+        origin: '*', // replace with your Netlify domain
+        credentials: true
+      },
       proxy
     },
     customLogger: createCustomLogger()
-  })
-}
+  }
+})
