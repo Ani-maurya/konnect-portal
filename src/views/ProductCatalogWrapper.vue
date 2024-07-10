@@ -101,7 +101,7 @@ export default defineComponent({
 
     const defaultHeaders = () => {
       if (!welcome_message.value) {
-        welcome_message.value = 'Welcome to our API Portal!'
+        welcome_message.value = 'Welcome to Custommmm Dev Portal'
       }
 
       if (!primary_header.value) {
