@@ -30,7 +30,7 @@ import useToaster from './composables/useToaster'
 import usePortalApi from './hooks/usePortalApi'
 import { createRedirectHandler } from './helpers/auth'
 import portalAnalyticsBridge from '@kong-ui-public/portal-analytics-bridge'
-const cors = require('cors')
+import cors from 'cors'
 /**
  * Initialize application
  */

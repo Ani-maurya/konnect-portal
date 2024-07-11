@@ -73,24 +73,24 @@ export default defineConfig(({ mode }) => {
     portalApiUrl = 'http://localhost' + portalApiUrl.replace(subdomainR, '')
   }
 
-// const proxy = {
-//   '^/api': {
-//     target: portalApiUrl,
-//     changeOrigin: true,
-//     headers: {
-//       'Access-Control-Allow-Origin': '*', // Adjust based on your security requirements
-//       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-//       'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-//     },
-//     onProxyRes: (proxyRes) => {
-//       if (proxyRes.headers['set-cookie']) {
-//         proxyRes.headers['set-cookie'] = proxyRes.headers['set-cookie'].map(cookie => {
-//           return cookie.replace(/Domain=.*;/, 'Domain=localhost; Secure;')
-//         });
-//       }
-//     }
-//   }
-// };
+const proxy = {
+  '^/api': {
+    target: portalApiUrl,
+    changeOrigin: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*', // Adjust based on your security requirements
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    },
+    onProxyRes: (proxyRes) => {
+      if (proxyRes.headers['set-cookie']) {
+        proxyRes.headers['set-cookie'] = proxyRes.headers['set-cookie'].map(cookie => {
+          return cookie.replace(/Domain=.*;/, 'Domain=localhost; Secure;')
+        });
+      }
+    }
+  }
+};
 
 
   // required to prevent localhost from being rendered as 127.0.0.1
